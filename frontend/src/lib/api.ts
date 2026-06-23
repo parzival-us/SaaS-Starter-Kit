@@ -12,21 +12,16 @@ const api = axios.create({
 // Request interceptor — attach JWT
 api.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
-    const tokensRaw = localStorage.getItem('auth-tokens');
-    if (tokensRaw) {
-      try {
-        const tokens = JSON.parse(tokensRaw);
-        if (tokens?.access_token) {
-          config.headers.Authorization = `Bearer ${tokens.access_token}`;
-        }
-      } catch {
-        // Invalid JSON in storage, ignore
-      }
+    const token = localStorage.getItem('access_token');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
   },
   (error) => Promise.reject(error),
 );
+
+export { api };
 
 // Response interceptor — handle 401 & token refresh
 let isRefreshing = false;
@@ -62,24 +57,24 @@ api.interceptors.response.use(
       isRefreshing = true;
 
       try {
-        const tokensRaw = localStorage.getItem('auth-tokens');
-        if (!tokensRaw) throw new Error('No tokens');
+        const refreshToken = localStorage.getItem('refresh_token');
+        if (!refreshToken) throw new Error('No tokens');
 
-        const tokens = JSON.parse(tokensRaw);
         const response = await axios.post(`${API_BASE_URL}/auth/refresh`, {
-          refresh_token: tokens.refresh_token,
+          refresh_token: refreshToken,
         });
 
         const newTokens = response.data;
-        localStorage.setItem('auth-tokens', JSON.stringify(newTokens));
+        localStorage.setItem('access_token', newTokens.access_token);
+        localStorage.setItem('refresh_token', newTokens.refresh_token);
         api.defaults.headers.common.Authorization = `Bearer ${newTokens.access_token}`;
 
         processQueue(null);
         return api(originalRequest);
       } catch (refreshError) {
         processQueue(refreshError);
-        localStorage.removeItem('auth-tokens');
-        localStorage.removeItem('auth-user');
+        localStorage.removeItem('access_token');
+        localStorage.removeItem('refresh_token');
         window.location.href = '/login';
         return Promise.reject(refreshError);
       } finally {

@@ -31,6 +31,7 @@ class Settings(BaseSettings):
     # ── Auth / JWT ───────────────────────────────────────────
     SECRET_KEY: SecretStr = SecretStr("change-me-to-a-real-secret-key")
     REFRESH_SECRET_KEY: SecretStr = SecretStr("change-me-to-a-real-refresh-secret")
+    SESSION_SECRET: SecretStr = SecretStr("change-me-to-a-session-secret")
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
     REFRESH_TOKEN_EXPIRE_DAYS: int = 7
     JWT_ALGORITHM: str = "HS256"

@@ -291,5 +291,3 @@ MIT License. See [LICENSE](LICENSE) for details.
 [Discussions](https://github.com/your-org/ai-saas-starter-kit/discussions)
 
 </div>
-#   S a a S - S t a r t e r - K i t  
- 
