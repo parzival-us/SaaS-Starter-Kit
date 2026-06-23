@@ -1,0 +1,129 @@
+# ============================================================
+# CD Pipeline — AI SaaS Starter Kit
+# ============================================================
+# Builds and pushes Docker images on merge to main.
+# Deploy step uses SSH to a VPS by default — swap for your
+# preferred cloud provider (AWS ECS, GCP Cloud Run, etc.).
+# ============================================================
+
+name: Deploy to Production
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false   # Never cancel an active deployment
+
+permissions:
+  contents: read
+  packages: write
+  id-token: write
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_PREFIX: ${{ github.repository }}
+
+jobs:
+  # ─── Build & Push Docker Images ────────────────────────────
+  build-and-push:
+    name: Build & Push Images
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build & Push Backend Image
+        uses: docker/build-push-action@v6
+        with:
+          context: ./backend
+          push: true
+          tags: |
+            ${{ env.REGISTRY }}/${{ env.IMAGE_PREFIX }}/backend:${{ github.sha }}
+            ${{ env.REGISTRY }}/${{ env.IMAGE_PREFIX }}/backend:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          platforms: linux/amd64
+
+      - name: Build & Push Frontend Image
+        uses: docker/build-push-action@v6
+        with:
+          context: ./frontend
+          push: true
+          tags: |
+            ${{ env.REGISTRY }}/${{ env.IMAGE_PREFIX }}/frontend:${{ github.sha }}
+            ${{ env.REGISTRY }}/${{ env.IMAGE_PREFIX }}/frontend:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          platforms: linux/amd64
+
+  # ─── Deploy to Production Server ───────────────────────────
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    needs: build-and-push
+    environment:
+      name: production
+      url: ${{ vars.PRODUCTION_URL }}
+
+    steps:
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
+          key: ${{ secrets.DEPLOY_SSH_KEY }}
+          script: |
+            cd /opt/ai-saas
+            
+            # Pull latest images
+            docker compose pull
+            
+            # Run database migrations
+            docker compose run --rm migrate
+            
+            # Restart services (zero-downtime with health checks)
+            docker compose up -d --remove-orphans
+            
+            # Clean up old images
+            docker image prune -f
+            
+            echo "✅ Deployment complete!"
+
+  # ─── Post-Deploy Health Check ──────────────────────────────
+  verify:
+    name: Verify Deployment
+    runs-on: ubuntu-latest
+    needs: deploy
+
+    steps:
+      - name: Health check
+        run: |
+          echo "Waiting 30s for services to stabilize..."
+          sleep 30
+          
+          for i in {1..10}; do
+            STATUS=$(curl -s -o /dev/null -w "%{http_code}" "${{ vars.PRODUCTION_URL }}/api/v1/health" || echo "000")
+            if [ "$STATUS" = "200" ]; then
+              echo "✅ Health check passed! (attempt $i)"
+              exit 0
+            fi
+            echo "⏳ Attempt $i: Got status $STATUS, retrying in 15s..."
+            sleep 15
+          done
+          
+          echo "❌ Health check failed after 10 attempts"
+          exit 1

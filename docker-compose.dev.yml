@@ -1,0 +1,46 @@
+# ============================================================
+# AI SaaS Starter Kit — Development Overrides
+# ============================================================
+# Usage:
+#   docker compose -f docker-compose.yml -f docker-compose.dev.yml up
+# ============================================================
+
+services:
+  # ─── PostgreSQL — expose port for local tools ────────────
+  db:
+    ports:
+      - "5432:5432"
+
+  # ─── Redis — expose port for local tools ─────────────────
+  redis:
+    ports:
+      - "6379:6379"
+
+  # ─── Backend — hot reload with volume mount ──────────────
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    volumes:
+      - ./backend:/app
+    command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+    environment:
+      ENVIRONMENT: development
+      DEBUG: "true"
+    ports:
+      - "8000:8000"
+
+  # ─── Frontend — dev server instead of Nginx ──────────────
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      target: build
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    command: ["npm", "run", "dev", "--", "--host", "0.0.0.0"]
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_API_URL=http://localhost:8000
