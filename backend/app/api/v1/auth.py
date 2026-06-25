@@ -92,7 +92,9 @@ async def refresh(
 @router.get("/google/login", summary="Redirect to Google OAuth")
 async def google_login(request: Request):
     """Redirect the user to Google's OAuth consent screen."""
-    redirect_uri = str(request.url_for("google_callback"))
+    # Build redirect URI from FRONTEND_URL to avoid Docker/proxy mismatches
+    base_url = settings.FRONTEND_URL.rstrip("/")
+    redirect_uri = f"{base_url}/api/v1/auth/google/callback"
     return await oauth.google.authorize_redirect(request, redirect_uri)
 
 

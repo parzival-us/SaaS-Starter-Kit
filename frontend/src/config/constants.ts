@@ -1,6 +1,6 @@
 export const APP_NAME = 'NexusAI';
 export const APP_DESCRIPTION = 'Powerful AI tools for your business';
-export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api/v1';
+export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
 
 export const ROUTE_PATHS = {
   HOME: '/',

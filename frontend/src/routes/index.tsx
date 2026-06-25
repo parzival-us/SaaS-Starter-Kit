@@ -8,6 +8,7 @@ import LandingPage from '@/pages/landing/LandingPage';
 import PricingPage from '@/pages/pricing/PricingPage';
 import LoginPage from '@/pages/auth/LoginPage';
 import RegisterPage from '@/pages/auth/RegisterPage';
+import OAuthCallbackPage from '@/pages/auth/OAuthCallbackPage';
 
 // Protected pages
 import DashboardPage from '@/pages/dashboard/DashboardPage';
@@ -43,6 +44,7 @@ export const router = createBrowserRouter([
   { path: '/pricing', element: <PricingPage /> },
   { path: '/login', element: <LoginPage /> },
   { path: '/register', element: <RegisterPage /> },
+  { path: '/auth/callback', element: <OAuthCallbackPage /> },
 
   // ── Protected Routes (App Layout) ───────
   {

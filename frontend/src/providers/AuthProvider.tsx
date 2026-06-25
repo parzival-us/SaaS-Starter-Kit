@@ -11,6 +11,7 @@ interface AuthContextType {
   logout: () => void;
   loginWithGoogle: () => void;
   updateUser: (data: Partial<User>) => void;
+  refreshUser: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -81,7 +82,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   return (
     <AuthContext.Provider
-      value={{ user, isAuthenticated, isLoading, login, register, logout, loginWithGoogle, updateUser }}
+      value={{ user, isAuthenticated, isLoading, login, register, logout, loginWithGoogle, updateUser, refreshUser: fetchUser }}
     >
       {children}
     </AuthContext.Provider>
