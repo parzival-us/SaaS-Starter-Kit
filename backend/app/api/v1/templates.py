@@ -7,7 +7,7 @@ from __future__ import annotations
 import uuid
 
 from fastapi import APIRouter, Depends, HTTPException, Query, status
-from sqlalchemy import or_, select, func
+from sqlalchemy import func, or_, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.dependencies import get_current_active_user
@@ -106,9 +106,7 @@ async def get_template(
     db: AsyncSession = Depends(get_db),
 ):
     """Get a template by ID. Must be public or owned by the current user."""
-    result = await db.execute(
-        select(PromptTemplate).where(PromptTemplate.id == template_id)
-    )
+    result = await db.execute(select(PromptTemplate).where(PromptTemplate.id == template_id))
     template = result.scalar_one_or_none()
 
     if not template:
@@ -138,9 +136,7 @@ async def update_template(
     db: AsyncSession = Depends(get_db),
 ):
     """Update a template. Only the owner can update it."""
-    result = await db.execute(
-        select(PromptTemplate).where(PromptTemplate.id == template_id)
-    )
+    result = await db.execute(select(PromptTemplate).where(PromptTemplate.id == template_id))
     template = result.scalar_one_or_none()
 
     if not template:
@@ -173,9 +169,7 @@ async def delete_template(
     db: AsyncSession = Depends(get_db),
 ):
     """Delete a template. Only the owner can delete it."""
-    result = await db.execute(
-        select(PromptTemplate).where(PromptTemplate.id == template_id)
-    )
+    result = await db.execute(select(PromptTemplate).where(PromptTemplate.id == template_id))
     template = result.scalar_one_or_none()
 
     if not template:

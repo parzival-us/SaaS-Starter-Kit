@@ -38,9 +38,7 @@ async def track_usage(
     return record
 
 
-async def get_user_usage_stats(
-    db: AsyncSession, user_id: uuid.UUID, days: int = 30
-) -> dict:
+async def get_user_usage_stats(db: AsyncSession, user_id: uuid.UUID, days: int = 30) -> dict:
     """Return usage statistics for a user over the last *days* days."""
     cutoff = datetime.now(timezone.utc) - timedelta(days=days)
 
@@ -108,9 +106,7 @@ async def check_quota(db: AsyncSession, user_id: uuid.UUID) -> bool:
     quota = settings.PLAN_QUOTAS.get(plan_name, settings.PLAN_QUOTAS["free"])
 
     # Count today's usage
-    today_start = datetime.combine(
-        date.today(), datetime.min.time(), tzinfo=timezone.utc
-    )
+    today_start = datetime.combine(date.today(), datetime.min.time(), tzinfo=timezone.utc)
     result = await db.execute(
         select(func.count(UsageRecord.id)).where(
             UsageRecord.user_id == user_id,
@@ -139,13 +135,9 @@ async def get_system_usage_stats(db: AsyncSession) -> dict:
     total_users = users_result.scalar() or 0
 
     # Active today
-    today_start = datetime.combine(
-        date.today(), datetime.min.time(), tzinfo=timezone.utc
-    )
+    today_start = datetime.combine(date.today(), datetime.min.time(), tzinfo=timezone.utc)
     active_result = await db.execute(
-        select(func.count(func.distinct(UsageRecord.user_id))).where(
-            UsageRecord.created_at >= today_start
-        )
+        select(func.count(func.distinct(UsageRecord.user_id))).where(UsageRecord.created_at >= today_start)
     )
     active_today = active_result.scalar() or 0
 

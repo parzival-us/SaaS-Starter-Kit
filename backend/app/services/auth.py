@@ -145,9 +145,7 @@ async def refresh_tokens(db: AsyncSession, refresh_token_str: str) -> TokenRespo
         detail="Invalid or expired refresh token",
     )
     try:
-        payload = decode_token(
-            refresh_token_str, settings.REFRESH_SECRET_KEY.get_secret_value()
-        )
+        payload = decode_token(refresh_token_str, settings.REFRESH_SECRET_KEY.get_secret_value())
         if payload.get("type") != "refresh":
             raise credentials_exc
         user_id_str = payload.get("sub")

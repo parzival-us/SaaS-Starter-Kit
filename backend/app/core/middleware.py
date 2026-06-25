@@ -52,9 +52,7 @@ class RateLimitMiddleware(BaseHTTPMiddleware):
         super().__init__(app)
         self.per_minute = per_minute or settings.RATE_LIMIT_PER_MINUTE
 
-    async def dispatch(
-        self, request: Request, call_next: RequestResponseEndpoint
-    ) -> Response:
+    async def dispatch(self, request: Request, call_next: RequestResponseEndpoint) -> Response:
         # Skip rate-limiting for health endpoints
         if request.url.path.startswith("/health"):
             return await call_next(request)
@@ -94,9 +92,7 @@ class UsageTrackingMiddleware(BaseHTTPMiddleware):
     usage service after AI calls.
     """
 
-    async def dispatch(
-        self, request: Request, call_next: RequestResponseEndpoint
-    ) -> Response:
+    async def dispatch(self, request: Request, call_next: RequestResponseEndpoint) -> Response:
         response = await call_next(request)
 
         # Only track authenticated API requests
@@ -123,9 +119,7 @@ class UsageTrackingMiddleware(BaseHTTPMiddleware):
 class RequestLoggingMiddleware(BaseHTTPMiddleware):
     """Log method, path, status code, and duration for every request."""
 
-    async def dispatch(
-        self, request: Request, call_next: RequestResponseEndpoint
-    ) -> Response:
+    async def dispatch(self, request: Request, call_next: RequestResponseEndpoint) -> Response:
         start = time.perf_counter()
         response: Response | None = None
         try:

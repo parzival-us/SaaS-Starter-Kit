@@ -14,9 +14,7 @@ from app.config import settings
 
 logger = logging.getLogger("app.services.ai")
 
-DEFAULT_SYSTEM_PROMPT = (
-    "You are a helpful AI assistant. Provide clear, concise, and accurate responses."
-)
+DEFAULT_SYSTEM_PROMPT = "You are a helpful AI assistant. Provide clear, concise, and accurate responses."
 
 
 def count_tokens(text: str) -> int:
@@ -24,9 +22,7 @@ def count_tokens(text: str) -> int:
     return max(len(text) // 4, 1)
 
 
-def build_messages(
-    system_prompt: str | None, conversation_messages: list
-) -> list[dict]:
+def build_messages(system_prompt: str | None, conversation_messages: list) -> list[dict]:
     """Build the messages list for the API call.
 
     *conversation_messages* may be SQLAlchemy ``Message`` objects (with
@@ -75,9 +71,7 @@ async def chat_completion(messages: list[dict], model: str | None = None) -> str
     return data["choices"][0]["message"]["content"]
 
 
-async def chat_completion_stream(
-    messages: list[dict], model: str | None = None
-) -> AsyncGenerator[str, None]:
+async def chat_completion_stream(messages: list[dict], model: str | None = None) -> AsyncGenerator[str, None]:
     """Stream chat completion, yielding content deltas as they arrive."""
     target_model = model or settings.OPENAI_MODEL
     url = f"{settings.OPENAI_API_BASE}/chat/completions"

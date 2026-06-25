@@ -61,9 +61,7 @@ async def login(
 
     Uses ``OAuth2PasswordRequestForm`` for Swagger UI compatibility.
     """
-    user = await auth_service.authenticate_user(
-        db, form_data.username, form_data.password
-    )
+    user = await auth_service.authenticate_user(db, form_data.username, form_data.password)
     if not user:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,

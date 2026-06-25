@@ -20,14 +20,10 @@ class Conversation(Base):
     user_id: Mapped[uuid.UUID] = mapped_column(
         Uuid, ForeignKey("users.id", ondelete="CASCADE"), nullable=False, index=True
     )
-    title: Mapped[str] = mapped_column(
-        String(255), default="New Conversation", nullable=False
-    )
+    title: Mapped[str] = mapped_column(String(255), default="New Conversation", nullable=False)
     model: Mapped[str] = mapped_column(String(100), nullable=False)
 
-    created_at: Mapped[datetime] = mapped_column(
-        DateTime(timezone=True), server_default=func.now(), nullable=False
-    )
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False)
     updated_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True),
         server_default=func.now(),
@@ -59,15 +55,11 @@ class Message(Base):
         nullable=False,
         index=True,
     )
-    role: Mapped[str] = mapped_column(
-        String(20), nullable=False
-    )  # system / user / assistant
+    role: Mapped[str] = mapped_column(String(20), nullable=False)  # system / user / assistant
     content: Mapped[str] = mapped_column(Text, nullable=False)
     tokens: Mapped[int] = mapped_column(Integer, default=0, nullable=False)
 
-    created_at: Mapped[datetime] = mapped_column(
-        DateTime(timezone=True), server_default=func.now(), nullable=False
-    )
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False)
     updated_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True),
         server_default=func.now(),

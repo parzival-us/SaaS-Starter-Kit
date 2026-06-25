@@ -69,9 +69,7 @@ async def list_api_keys(
 ):
     """List all API keys for the current user."""
     result = await db.execute(
-        select(APIKey)
-        .where(APIKey.user_id == current_user.id)
-        .order_by(APIKey.created_at.desc())
+        select(APIKey).where(APIKey.user_id == current_user.id).order_by(APIKey.created_at.desc())
     )
     keys = result.scalars().all()
 

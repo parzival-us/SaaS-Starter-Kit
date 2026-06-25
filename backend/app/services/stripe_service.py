@@ -30,9 +30,7 @@ def create_customer(email: str, name: str | None = None) -> str:
     return customer.id
 
 
-def create_checkout_session(
-    customer_id: str, price_id: str, success_url: str, cancel_url: str
-) -> str:
+def create_checkout_session(customer_id: str, price_id: str, success_url: str, cancel_url: str) -> str:
     """Create a Stripe Checkout session for a subscription and return the URL."""
     session = stripe.checkout.Session.create(
         customer=customer_id,
@@ -72,9 +70,7 @@ async def handle_checkout_completed(db: AsyncSession, session_data: dict) -> Non
         return
 
     # Find user by stripe_customer_id
-    result = await db.execute(
-        select(User).where(User.stripe_customer_id == customer_id)
-    )
+    result = await db.execute(select(User).where(User.stripe_customer_id == customer_id))
     user = result.scalar_one_or_none()
     if not user:
         logger.warning("No user found for Stripe customer %s", customer_id)
@@ -85,12 +81,8 @@ async def handle_checkout_completed(db: AsyncSession, session_data: dict) -> Non
         stripe_sub = stripe.Subscription.retrieve(stripe_sub_id)
         price_id = stripe_sub["items"]["data"][0]["price"]["id"]
         plan_name = _plan_from_price_id(price_id)
-        period_start = datetime.fromtimestamp(
-            stripe_sub["current_period_start"], tz=timezone.utc
-        )
-        period_end = datetime.fromtimestamp(
-            stripe_sub["current_period_end"], tz=timezone.utc
-        )
+        period_start = datetime.fromtimestamp(stripe_sub["current_period_start"], tz=timezone.utc)
+        period_end = datetime.fromtimestamp(stripe_sub["current_period_end"], tz=timezone.utc)
     except Exception:
         logger.exception("Failed to retrieve Stripe subscription details")
         plan_name = "pro"
@@ -98,9 +90,7 @@ async def handle_checkout_completed(db: AsyncSession, session_data: dict) -> Non
         period_end = None
 
     # Find existing subscription or create new one
-    result = await db.execute(
-        select(Subscription).where(Subscription.user_id == user.id)
-    )
+    result = await db.execute(select(Subscription).where(Subscription.user_id == user.id))
     subscription = result.scalar_one_or_none()
 
     if subscription:
@@ -124,17 +114,13 @@ async def handle_checkout_completed(db: AsyncSession, session_data: dict) -> Non
     logger.info("Subscription activated for user %s: plan=%s", user.id, plan_name)
 
 
-async def handle_subscription_updated(
-    db: AsyncSession, subscription_data: dict
-) -> None:
+async def handle_subscription_updated(db: AsyncSession, subscription_data: dict) -> None:
     """Handle the customer.subscription.updated event."""
     stripe_sub_id = subscription_data.get("id")
     if not stripe_sub_id:
         return
 
-    result = await db.execute(
-        select(Subscription).where(Subscription.stripe_subscription_id == stripe_sub_id)
-    )
+    result = await db.execute(select(Subscription).where(Subscription.stripe_subscription_id == stripe_sub_id))
     subscription = result.scalar_one_or_none()
     if not subscription:
         logger.warning("No subscription found for Stripe sub %s", stripe_sub_id)
@@ -155,29 +141,21 @@ async def handle_subscription_updated(
     period_start = subscription_data.get("current_period_start")
     period_end = subscription_data.get("current_period_end")
     if period_start:
-        subscription.current_period_start = datetime.fromtimestamp(
-            period_start, tz=timezone.utc
-        )
+        subscription.current_period_start = datetime.fromtimestamp(period_start, tz=timezone.utc)
     if period_end:
-        subscription.current_period_end = datetime.fromtimestamp(
-            period_end, tz=timezone.utc
-        )
+        subscription.current_period_end = datetime.fromtimestamp(period_end, tz=timezone.utc)
 
     await db.flush()
     logger.info("Subscription %s updated: status=%s", stripe_sub_id, new_status)
 
 
-async def handle_subscription_deleted(
-    db: AsyncSession, subscription_data: dict
-) -> None:
+async def handle_subscription_deleted(db: AsyncSession, subscription_data: dict) -> None:
     """Handle the customer.subscription.deleted event."""
     stripe_sub_id = subscription_data.get("id")
     if not stripe_sub_id:
         return
 
-    result = await db.execute(
-        select(Subscription).where(Subscription.stripe_subscription_id == stripe_sub_id)
-    )
+    result = await db.execute(select(Subscription).where(Subscription.stripe_subscription_id == stripe_sub_id))
     subscription = result.scalar_one_or_none()
     if not subscription:
         logger.warning("No subscription found for Stripe sub %s", stripe_sub_id)
@@ -200,9 +178,7 @@ def get_plans() -> list[PlanResponse]:
             is_popular=False,
             features=[
                 PlanFeature(name="AI Chat", included=True, limit="50 messages/day"),
-                PlanFeature(
-                    name="Prompt Templates", included=True, limit="5 templates"
-                ),
+                PlanFeature(name="Prompt Templates", included=True, limit="5 templates"),
                 PlanFeature(name="Conversation History", included=True, limit="7 days"),
                 PlanFeature(name="API Access", included=False),
                 PlanFeature(name="Priority Support", included=False),
@@ -217,9 +193,7 @@ def get_plans() -> list[PlanResponse]:
             features=[
                 PlanFeature(name="AI Chat", included=True, limit="1,000 messages/day"),
                 PlanFeature(name="Prompt Templates", included=True, limit="Unlimited"),
-                PlanFeature(
-                    name="Conversation History", included=True, limit="Unlimited"
-                ),
+                PlanFeature(name="Conversation History", included=True, limit="Unlimited"),
                 PlanFeature(name="API Access", included=True, limit="1,000 req/day"),
                 PlanFeature(name="Priority Support", included=True),
             ],
@@ -233,9 +207,7 @@ def get_plans() -> list[PlanResponse]:
             features=[
                 PlanFeature(name="AI Chat", included=True, limit="10,000 messages/day"),
                 PlanFeature(name="Prompt Templates", included=True, limit="Unlimited"),
-                PlanFeature(
-                    name="Conversation History", included=True, limit="Unlimited"
-                ),
+                PlanFeature(name="Conversation History", included=True, limit="Unlimited"),
                 PlanFeature(name="API Access", included=True, limit="10,000 req/day"),
                 PlanFeature(name="Priority Support", included=True),
                 PlanFeature(name="Custom Integrations", included=True),

@@ -42,9 +42,7 @@ async def get_stats(
     total_users = users_result.scalar() or 0
 
     # Active users
-    active_result = await db.execute(
-        select(func.count(User.id)).where(User.is_active.is_(True))
-    )
+    active_result = await db.execute(select(func.count(User.id)).where(User.is_active.is_(True)))
     active_users = active_result.scalar() or 0
 
     # Total conversations

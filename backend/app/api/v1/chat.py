@@ -79,11 +79,7 @@ async def list_conversations(
 ):
     """List the current user's conversations ordered by most recent."""
     # Total count
-    count_result = await db.execute(
-        select(func.count(Conversation.id)).where(
-            Conversation.user_id == current_user.id
-        )
-    )
+    count_result = await db.execute(select(func.count(Conversation.id)).where(Conversation.user_id == current_user.id))
     total = count_result.scalar() or 0
 
     # Fetch conversations with message count
@@ -136,9 +132,7 @@ async def get_conversation(
     db: AsyncSession = Depends(get_db),
 ):
     """Return a conversation and all its messages."""
-    result = await db.execute(
-        select(Conversation).where(Conversation.id == conversation_id)
-    )
+    result = await db.execute(select(Conversation).where(Conversation.id == conversation_id))
     conversation = result.scalar_one_or_none()
 
     if not conversation:
@@ -188,9 +182,7 @@ async def send_message(
 ):
     """Send a user message and stream the AI assistant's response via SSE."""
     # Fetch and verify conversation
-    result = await db.execute(
-        select(Conversation).where(Conversation.id == conversation_id)
-    )
+    result = await db.execute(select(Conversation).where(Conversation.id == conversation_id))
     conversation = result.scalar_one_or_none()
 
     if not conversation:
@@ -207,9 +199,7 @@ async def send_message(
     # If template_id is provided, fetch the template
     system_prompt = None
     if body.template_id:
-        tmpl_result = await db.execute(
-            select(PromptTemplate).where(PromptTemplate.id == body.template_id)
-        )
+        tmpl_result = await db.execute(select(PromptTemplate).where(PromptTemplate.id == body.template_id))
         template = tmpl_result.scalar_one_or_none()
         if template:
             system_prompt = template.content
@@ -233,9 +223,7 @@ async def send_message(
     async def event_stream():
         full_response = ""
         try:
-            async for chunk in ai_service.chat_completion_stream(
-                api_messages, model=conversation.model
-            ):
+            async for chunk in ai_service.chat_completion_stream(api_messages, model=conversation.model):
                 full_response += chunk
                 # SSE format
                 data = json.dumps({"content": chunk})
@@ -301,9 +289,7 @@ async def delete_conversation(
     db: AsyncSession = Depends(get_db),
 ):
     """Delete a conversation and all its messages."""
-    result = await db.execute(
-        select(Conversation).where(Conversation.id == conversation_id)
-    )
+    result = await db.execute(select(Conversation).where(Conversation.id == conversation_id))
     conversation = result.scalar_one_or_none()
 
     if not conversation:

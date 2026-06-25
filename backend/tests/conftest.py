@@ -1,32 +1,28 @@
 """
 Pytest fixtures for async testing.
 """
-import asyncio
+
 import uuid
 from typing import AsyncGenerator
 
-import pytest
 import pytest_asyncio
 from httpx import ASGITransport, AsyncClient
-from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, AsyncSession
+from sqlalchemy.ext.asyncio import (
+    AsyncSession,
+    async_sessionmaker,
+    create_async_engine,
+)
 
 from app.database import Base, get_db
 from app.main import app
-from app.core.security import get_password_hash
 
 # Use SQLite for tests (in-memory)
 TEST_DATABASE_URL = "sqlite+aiosqlite:///./test.db"
 
 engine_test = create_async_engine(TEST_DATABASE_URL, echo=False)
-async_session_test = async_sessionmaker(engine_test, class_=AsyncSession, expire_on_commit=False)
-
-
-@pytest.fixture(scope="session")
-def event_loop():
-    """Create an event loop for the test session."""
-    loop = asyncio.new_event_loop()
-    yield loop
-    loop.close()
+async_session_test = async_sessionmaker(
+    engine_test, class_=AsyncSession, expire_on_commit=False
+)
 
 
 @pytest_asyncio.fixture(autouse=True)

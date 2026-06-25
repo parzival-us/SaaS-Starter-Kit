@@ -63,34 +63,24 @@ async def get_dashboard(
 ):
     """Return aggregated dashboard data for the current user."""
     # Count conversations
-    conv_result = await db.execute(
-        select(func.count(Conversation.id)).where(
-            Conversation.user_id == current_user.id
-        )
-    )
+    conv_result = await db.execute(select(func.count(Conversation.id)).where(Conversation.user_id == current_user.id))
     total_conversations = conv_result.scalar() or 0
 
     # Count messages across user's conversations
     msg_result = await db.execute(
         select(func.count(Message.id)).where(
-            Message.conversation_id.in_(
-                select(Conversation.id).where(Conversation.user_id == current_user.id)
-            )
+            Message.conversation_id.in_(select(Conversation.id).where(Conversation.user_id == current_user.id))
         )
     )
     total_messages = msg_result.scalar() or 0
 
     # Count API calls (usage records)
-    api_result = await db.execute(
-        select(func.count(UsageRecord.id)).where(UsageRecord.user_id == current_user.id)
-    )
+    api_result = await db.execute(select(func.count(UsageRecord.id)).where(UsageRecord.user_id == current_user.id))
     total_api_calls = api_result.scalar() or 0
 
     # Sum tokens used
     tokens_result = await db.execute(
-        select(func.coalesce(func.sum(UsageRecord.tokens_used), 0)).where(
-            UsageRecord.user_id == current_user.id
-        )
+        select(func.coalesce(func.sum(UsageRecord.tokens_used), 0)).where(UsageRecord.user_id == current_user.id)
     )
     tokens_used = tokens_result.scalar() or 0
 
@@ -106,9 +96,7 @@ async def get_dashboard(
 
     # Calculate today's usage percentage
     quota = settings.PLAN_QUOTAS.get(current_plan, settings.PLAN_QUOTAS["free"])
-    today_start = datetime.combine(
-        date.today(), datetime.min.time(), tzinfo=timezone.utc
-    )
+    today_start = datetime.combine(date.today(), datetime.min.time(), tzinfo=timezone.utc)
     today_result = await db.execute(
         select(func.count(UsageRecord.id)).where(
             UsageRecord.user_id == current_user.id,

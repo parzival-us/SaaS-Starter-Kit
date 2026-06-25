@@ -7,12 +7,12 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
-from starlette.middleware.sessions import SessionMiddleware
 from sqlalchemy import text
+from starlette.middleware.sessions import SessionMiddleware
 
+from app.api.v1.router import api_router
 from app.config import settings
 from app.database import engine
-from app.api.v1.router import api_router
 
 
 @asynccontextmanager
@@ -73,9 +73,7 @@ async def health_ready():
 
     all_healthy = all(v == "healthy" for v in checks.values())
     if not all_healthy:
-        return JSONResponse(
-            status_code=503, content={"status": "not ready", "checks": checks}
-        )
+        return JSONResponse(status_code=503, content={"status": "not ready", "checks": checks})
 
     return {"status": "ready", "checks": checks}
 
