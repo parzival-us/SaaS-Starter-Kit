@@ -23,7 +23,7 @@ export default function ApiKeysPage() {
   useEffect(() => { loadKeys(); }, []);
 
   const loadKeys = async () => {
-    try { const r = await api.get('/api/v1/api-keys'); setKeys(r.data.api_keys || []); } catch {}
+    try { const r = await api.get('/api/v1/api-keys'); setKeys(r.data.api_keys || []); } catch { /* silently ignore */ }
     finally { setLoading(false); }
   };
 

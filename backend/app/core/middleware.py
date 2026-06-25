@@ -4,7 +4,6 @@ ASGI middleware: rate-limiting (Redis-backed), usage tracking, and request loggi
 
 from __future__ import annotations
 
-import json
 import logging
 import time
 from datetime import date

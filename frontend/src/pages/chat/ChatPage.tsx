@@ -21,12 +21,12 @@ export default function ChatPage() {
   useEffect(() => { messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' }); }, [messages]);
 
   const loadConversations = async () => {
-    try { const r = await api.get('/api/v1/chat/conversations'); setConversations(r.data.conversations || []); } catch {}
+    try { const r = await api.get('/api/v1/chat/conversations'); setConversations(r.data.conversations || []); } catch { /* silently ignore */ }
   };
 
   const loadMessages = async (id: string) => {
     setActiveId(id);
-    try { const r = await api.get(`/api/v1/chat/conversations/${id}`); setMessages(r.data.messages || []); } catch {}
+    try { const r = await api.get(`/api/v1/chat/conversations/${id}`); setMessages(r.data.messages || []); } catch { /* silently ignore */ }
   };
 
   const createConversation = async () => {

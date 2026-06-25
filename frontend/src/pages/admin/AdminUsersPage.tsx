@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Search, Shield, ShieldOff, UserX, UserCheck } from 'lucide-react';
 import { toast } from 'sonner';
 import { api } from '@/lib/api';
@@ -31,9 +31,7 @@ export default function AdminUsersPage() {
 
   const pageSize = 10;
 
-  useEffect(() => { loadUsers(); }, [page, search, filter]);
-
-  const loadUsers = async () => {
+  const loadUsers = useCallback(async () => {
     setLoading(true);
     try {
       const params = new URLSearchParams({ page: String(page), page_size: String(pageSize) });
@@ -43,9 +41,11 @@ export default function AdminUsersPage() {
       const r = await api.get(`/api/v1/admin/users?${params}`);
       setUsers(r.data.users || []);
       setTotal(r.data.total || 0);
-    } catch {}
+    } catch { /* silently ignore */ }
     finally { setLoading(false); }
-  };
+  }, [page, search, filter, pageSize]);
+
+  useEffect(() => { loadUsers(); }, [loadUsers]);
 
   const toggleAdmin = async (userId: string, isAdmin: boolean) => {
     try {

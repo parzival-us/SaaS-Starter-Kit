@@ -150,9 +150,7 @@ async def stripe_webhook(
     elif event_type == "customer.subscription.deleted":
         await stripe_service.handle_subscription_deleted(db, event_data)
     elif event_type == "invoice.payment_failed":
-        logger.warning(
-            "Payment failed for customer %s", event_data.get("customer")
-        )
+        logger.warning("Payment failed for customer %s", event_data.get("customer"))
     else:
         logger.info("Unhandled Stripe event type: %s", event_type)
 

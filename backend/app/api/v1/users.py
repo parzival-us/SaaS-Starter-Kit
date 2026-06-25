@@ -74,9 +74,7 @@ async def get_dashboard(
     msg_result = await db.execute(
         select(func.count(Message.id)).where(
             Message.conversation_id.in_(
-                select(Conversation.id).where(
-                    Conversation.user_id == current_user.id
-                )
+                select(Conversation.id).where(Conversation.user_id == current_user.id)
             )
         )
     )
@@ -84,9 +82,7 @@ async def get_dashboard(
 
     # Count API calls (usage records)
     api_result = await db.execute(
-        select(func.count(UsageRecord.id)).where(
-            UsageRecord.user_id == current_user.id
-        )
+        select(func.count(UsageRecord.id)).where(UsageRecord.user_id == current_user.id)
     )
     total_api_calls = api_result.scalar() or 0
 

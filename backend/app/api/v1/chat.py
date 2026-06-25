@@ -263,7 +263,7 @@ async def send_message(
                 save_db.add(assistant_msg)
                 # Track usage
                 total_tokens = user_msg.tokens + assistant_tokens
-                usage_record = await usage_service.track_usage(
+                await usage_service.track_usage(
                     save_db,
                     current_user.id,
                     endpoint=f"/chat/conversations/{conversation_id}/messages",

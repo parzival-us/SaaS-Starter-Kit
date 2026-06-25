@@ -15,7 +15,6 @@ from app.database import get_db
 from app.models.api_key import APIKey
 from app.models.chat import Conversation, Message
 from app.models.subscription import Subscription
-from app.models.usage import UsageRecord
 from app.models.user import User
 from app.schemas.admin import (
     AdminStatsResponse,

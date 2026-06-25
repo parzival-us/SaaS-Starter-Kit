@@ -28,7 +28,7 @@ export default function TemplatesPage() {
   useEffect(() => { loadTemplates(); }, []);
 
   const loadTemplates = async () => {
-    try { const r = await api.get('/api/v1/templates'); setTemplates(r.data.templates || []); } catch {}
+    try { const r = await api.get('/api/v1/templates'); setTemplates(r.data.templates || []); } catch { /* silently ignore */ }
   };
 
   const handleSubmit = async () => {

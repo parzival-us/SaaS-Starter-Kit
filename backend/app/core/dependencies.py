@@ -133,7 +133,9 @@ async def check_usage_quota(
     quota = settings.PLAN_QUOTAS.get(plan_name, settings.PLAN_QUOTAS["free"])
 
     # Count today's usage
-    today_start = datetime.combine(date.today(), datetime.min.time(), tzinfo=timezone.utc)
+    today_start = datetime.combine(
+        date.today(), datetime.min.time(), tzinfo=timezone.utc
+    )
     result = await db.execute(
         select(func.count(UsageRecord.id)).where(
             UsageRecord.user_id == current_user.id,

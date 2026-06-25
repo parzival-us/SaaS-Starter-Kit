@@ -6,7 +6,7 @@ and FastAPI dependency for obtaining a DB session.
 from __future__ import annotations
 
 import uuid
-from datetime import datetime, timezone
+from datetime import datetime
 from typing import AsyncGenerator
 
 from sqlalchemy import DateTime, MetaData, Uuid, func

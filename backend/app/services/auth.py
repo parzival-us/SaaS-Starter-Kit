@@ -59,9 +59,7 @@ async def register_user(db: AsyncSession, schema: RegisterRequest) -> User:
     return user
 
 
-async def authenticate_user(
-    db: AsyncSession, email: str, password: str
-) -> User | None:
+async def authenticate_user(db: AsyncSession, email: str, password: str) -> User | None:
     """Verify email/password credentials. Returns the user or None."""
     result = await db.execute(select(User).where(User.email == email))
     user = result.scalar_one_or_none()

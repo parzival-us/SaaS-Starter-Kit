@@ -62,9 +62,7 @@ def _plan_from_price_id(price_id: str) -> str:
     return "pro"  # default to pro for unknown price IDs
 
 
-async def handle_checkout_completed(
-    db: AsyncSession, session_data: dict
-) -> None:
+async def handle_checkout_completed(db: AsyncSession, session_data: dict) -> None:
     """Handle the checkout.session.completed event."""
     customer_id = session_data.get("customer")
     stripe_sub_id = session_data.get("subscription")
@@ -135,9 +133,7 @@ async def handle_subscription_updated(
         return
 
     result = await db.execute(
-        select(Subscription).where(
-            Subscription.stripe_subscription_id == stripe_sub_id
-        )
+        select(Subscription).where(Subscription.stripe_subscription_id == stripe_sub_id)
     )
     subscription = result.scalar_one_or_none()
     if not subscription:
@@ -180,9 +176,7 @@ async def handle_subscription_deleted(
         return
 
     result = await db.execute(
-        select(Subscription).where(
-            Subscription.stripe_subscription_id == stripe_sub_id
-        )
+        select(Subscription).where(Subscription.stripe_subscription_id == stripe_sub_id)
     )
     subscription = result.scalar_one_or_none()
     if not subscription:
@@ -206,7 +200,9 @@ def get_plans() -> list[PlanResponse]:
             is_popular=False,
             features=[
                 PlanFeature(name="AI Chat", included=True, limit="50 messages/day"),
-                PlanFeature(name="Prompt Templates", included=True, limit="5 templates"),
+                PlanFeature(
+                    name="Prompt Templates", included=True, limit="5 templates"
+                ),
                 PlanFeature(name="Conversation History", included=True, limit="7 days"),
                 PlanFeature(name="API Access", included=False),
                 PlanFeature(name="Priority Support", included=False),
@@ -219,12 +215,8 @@ def get_plans() -> list[PlanResponse]:
             price_id=settings.STRIPE_PRICE_ID_PRO or None,
             is_popular=True,
             features=[
-                PlanFeature(
-                    name="AI Chat", included=True, limit="1,000 messages/day"
-                ),
-                PlanFeature(
-                    name="Prompt Templates", included=True, limit="Unlimited"
-                ),
+                PlanFeature(name="AI Chat", included=True, limit="1,000 messages/day"),
+                PlanFeature(name="Prompt Templates", included=True, limit="Unlimited"),
                 PlanFeature(
                     name="Conversation History", included=True, limit="Unlimited"
                 ),
@@ -239,12 +231,8 @@ def get_plans() -> list[PlanResponse]:
             price_id=settings.STRIPE_PRICE_ID_ENTERPRISE or None,
             is_popular=False,
             features=[
-                PlanFeature(
-                    name="AI Chat", included=True, limit="10,000 messages/day"
-                ),
-                PlanFeature(
-                    name="Prompt Templates", included=True, limit="Unlimited"
-                ),
+                PlanFeature(name="AI Chat", included=True, limit="10,000 messages/day"),
+                PlanFeature(name="Prompt Templates", included=True, limit="Unlimited"),
                 PlanFeature(
                     name="Conversation History", included=True, limit="Unlimited"
                 ),

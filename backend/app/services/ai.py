@@ -48,9 +48,7 @@ def build_messages(
     return messages
 
 
-async def chat_completion(
-    messages: list[dict], model: str | None = None
-) -> str:
+async def chat_completion(messages: list[dict], model: str | None = None) -> str:
     """Send a non-streaming chat completion request and return the response text."""
     target_model = model or settings.OPENAI_MODEL
     url = f"{settings.OPENAI_API_BASE}/chat/completions"
