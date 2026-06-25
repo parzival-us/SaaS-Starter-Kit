@@ -1,5 +1,8 @@
 # AI SaaS Starter Kit
 
+# Test databases
+*.db
+
 # Dependencies
 node_modules/
 __pycache__/
