@@ -280,12 +280,6 @@ stripe listen --forward-to localhost:8000/api/v1/subscriptions/webhook
 
 MIT License. See [LICENSE](LICENSE) for details.
 
----
-
-<div align="center">
-
-**Built with ❤️ for the SaaS community**
-
 [Report Bug](https://github.com/your-org/ai-saas-starter-kit/issues) ·
 [Request Feature](https://github.com/your-org/ai-saas-starter-kit/issues) ·
 [Discussions](https://github.com/your-org/ai-saas-starter-kit/discussions)
