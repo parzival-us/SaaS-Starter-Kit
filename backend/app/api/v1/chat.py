@@ -223,7 +223,7 @@ async def send_message(
     async def event_stream():
         full_response = ""
         try:
-            async for chunk in ai_service.chat_completion_stream(api_messages, model=conversation.model):
+            async for chunk in ai_service.chat_completion_stream(api_messages, model=settings.OPENAI_MODEL):
                 full_response += chunk
                 # SSE format
                 data = json.dumps({"content": chunk})
