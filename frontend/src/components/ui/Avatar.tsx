@@ -44,7 +44,7 @@ export function Avatar({ src, alt, fallback, size = 'md', status, className = ''
       )}
       {status && (
         <span
-          className={`absolute bottom-0 right-0 ${statusSizes[size]} rounded-full border-white dark:border-surface-800 ${
+          className={`absolute bottom-0 right-0 ${statusSizes[size]} rounded-full border-white dark:border-white/20 ${
             status === 'online' ? 'bg-emerald-500' : 'bg-surface-400'
           }`}
         />

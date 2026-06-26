@@ -9,7 +9,7 @@ export function AppLayout() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <div className="flex h-screen bg-surface-50 dark:bg-surface-950">
+    <div className="flex h-screen bg-surface-50 dark:bg-black">
       {/* Desktop Sidebar */}
       <div className="hidden lg:flex">
         <Sidebar collapsed={collapsed} onToggle={() => setCollapsed(!collapsed)} />

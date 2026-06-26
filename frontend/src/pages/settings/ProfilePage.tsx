@@ -79,7 +79,7 @@ export default function ProfilePage() {
       <Card>
         <CardBody>
           <h3 className="font-semibold text-red-600 dark:text-red-400 mb-2">Danger Zone</h3>
-          <p className="text-sm text-surface-500 dark:text-surface-400 mb-4">Once you delete your account, there is no going back. Please be certain.</p>
+          <p className="text-sm text-surface-500 dark:text-white/60 mb-4">Once you delete your account, there is no going back. Please be certain.</p>
           <Button variant="danger">Delete Account</Button>
         </CardBody>
       </Card>

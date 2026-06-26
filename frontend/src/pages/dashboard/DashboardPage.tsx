@@ -31,7 +31,7 @@ export default function DashboardPage() {
         <h1 className="text-2xl font-bold text-surface-900 dark:text-white">
           Welcome back, {user?.full_name?.split(' ')[0] || 'there'}! 👋
         </h1>
-        <p className="text-surface-500 dark:text-surface-400 mt-1">Here's what's happening with your AI workspace.</p>
+        <p className="text-surface-500 dark:text-white/60 mt-1">Here's what's happening with your AI workspace.</p>
       </div>
 
       {/* Stats Grid */}

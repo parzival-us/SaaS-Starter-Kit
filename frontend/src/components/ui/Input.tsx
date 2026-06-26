@@ -19,7 +19,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
     return (
       <div className="w-full">
         {label && (
-          <label htmlFor={inputId} className="block text-sm font-medium text-surface-700 dark:text-surface-300 mb-1.5">
+          <label htmlFor={inputId} className="block text-sm font-medium text-surface-700 dark:text-white/70 mb-1.5">
             {label}
           </label>
         )}
@@ -33,8 +33,8 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             ref={ref}
             id={inputId}
             type={inputType}
-            className={`w-full rounded-xl border bg-white dark:bg-surface-800/50 text-surface-900 dark:text-surface-100 placeholder-surface-400 dark:placeholder-surface-500 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-brand-500/50 focus:border-brand-500 ${
-              error ? 'border-red-400 focus:ring-red-500/50 focus:border-red-500' : 'border-surface-200 dark:border-surface-700'
+            className={`w-full rounded-xl border bg-white dark:bg-black/50 text-surface-900 dark:text-white placeholder-surface-400 dark:placeholder-white/40 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-brand-500/50 focus:border-brand-500 ${
+              error ? 'border-red-400 focus:ring-red-500/50 focus:border-red-500' : 'border-surface-200 dark:border-white/20'
             } ${leftIcon ? 'pl-10' : 'pl-4'} ${isPassword || rightIcon ? 'pr-10' : 'pr-4'} py-2.5 text-sm ${className}`}
             {...props}
           />
@@ -52,7 +52,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           )}
         </div>
         {error && <p className="mt-1.5 text-sm text-red-500">{error}</p>}
-        {helperText && !error && <p className="mt-1.5 text-sm text-surface-500 dark:text-surface-400">{helperText}</p>}
+        {helperText && !error && <p className="mt-1.5 text-sm text-surface-500 dark:text-white/60">{helperText}</p>}
       </div>
     );
   }

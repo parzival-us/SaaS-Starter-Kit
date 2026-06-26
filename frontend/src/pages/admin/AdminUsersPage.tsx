@@ -130,7 +130,7 @@ export default function AdminUsersPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-bold text-surface-900 dark:text-white">Manage Users</h1>
-        <p className="text-surface-500 dark:text-surface-400 mt-1">{total} total users</p>
+        <p className="text-surface-500 dark:text-white/60 mt-1">{total} total users</p>
       </div>
 
       <div className="flex flex-col sm:flex-row gap-4">

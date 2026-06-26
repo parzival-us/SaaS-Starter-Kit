@@ -66,7 +66,7 @@ export default function TemplatesPage() {
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold text-surface-900 dark:text-white">Prompt Templates</h1>
-          <p className="text-surface-500 dark:text-surface-400 mt-1">Create and manage reusable prompt templates</p>
+          <p className="text-surface-500 dark:text-white/60 mt-1">Create and manage reusable prompt templates</p>
         </div>
         <Button onClick={() => { setEditId(null); setForm({ title: '', description: '', content: '', category: 'general', is_public: false }); setModalOpen(true); }} leftIcon={<Plus className="w-4 h-4" />}>
           Create Template
@@ -96,7 +96,7 @@ export default function TemplatesPage() {
                   <h3 className="font-semibold text-surface-900 dark:text-white">{t.title}</h3>
                   <Badge variant="info" size="sm">{t.category}</Badge>
                 </div>
-                {t.description && <p className="text-sm text-surface-500 dark:text-surface-400 line-clamp-2">{t.description}</p>}
+                {t.description && <p className="text-sm text-surface-500 dark:text-white/60 line-clamp-2">{t.description}</p>}
                 <p className="text-xs text-surface-400">Used {t.usage_count} times</p>
                 <div className="flex gap-2 pt-2">
                   <Button size="sm" onClick={() => navigate('/chat')}>Use</Button>
@@ -114,18 +114,18 @@ export default function TemplatesPage() {
           <Input label="Title" value={form.title} onChange={e => setForm({ ...form, title: e.target.value })} />
           <Input label="Description" value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} />
           <div>
-            <label className="block text-sm font-medium text-surface-700 dark:text-surface-300 mb-1.5">Content</label>
+            <label className="block text-sm font-medium text-surface-700 dark:text-white/70 mb-1.5">Content</label>
             <textarea rows={5} value={form.content} onChange={e => setForm({ ...form, content: e.target.value })}
-              className="w-full rounded-xl border border-surface-200 dark:border-surface-700 bg-white dark:bg-surface-800 px-4 py-2.5 text-sm text-surface-900 dark:text-surface-100 focus:outline-none focus:ring-2 focus:ring-brand-500/50 resize-none" />
+              className="w-full rounded-xl border border-surface-200 dark:border-white/20 bg-white dark:bg-black px-4 py-2.5 text-sm text-surface-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500/50 resize-none" />
           </div>
           <div className="flex gap-4">
             <select value={form.category} onChange={e => setForm({ ...form, category: e.target.value })}
-              className="flex-1 rounded-xl border border-surface-200 dark:border-surface-700 bg-white dark:bg-surface-800 px-4 py-2.5 text-sm text-surface-700 dark:text-surface-300">
+              className="flex-1 rounded-xl border border-surface-200 dark:border-white/20 bg-white dark:bg-black px-4 py-2.5 text-sm text-surface-700 dark:text-white/70">
               {categories.filter(c => c !== 'all').map(c => <option key={c} value={c}>{c}</option>)}
             </select>
             <label className="flex items-center gap-2 cursor-pointer">
               <input type="checkbox" checked={form.is_public} onChange={e => setForm({ ...form, is_public: e.target.checked })} className="w-4 h-4 rounded border-surface-300 text-brand-500" />
-              <span className="text-sm text-surface-700 dark:text-surface-300">Public</span>
+              <span className="text-sm text-surface-700 dark:text-white/70">Public</span>
             </label>
           </div>
           <div className="flex gap-3 justify-end pt-2">

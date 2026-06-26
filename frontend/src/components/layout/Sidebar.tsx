@@ -29,17 +29,17 @@ export function Sidebar({ collapsed, onToggle, onClose }: SidebarProps) {
     `flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 group relative ${
       isActive
         ? 'bg-brand-50 dark:bg-brand-900/30 text-brand-700 dark:text-brand-300 before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:w-1 before:h-6 before:bg-brand-500 before:rounded-r-full'
-        : 'text-surface-600 dark:text-surface-400 hover:bg-surface-50 dark:hover:bg-surface-800 hover:text-surface-900 dark:hover:text-surface-200'
+        : 'text-surface-600 dark:text-white/60 hover:bg-surface-50 dark:hover:bg-surface-800 hover:text-surface-900 dark:hover:text-surface-200'
     }`;
 
   return (
     <aside
-      className={`flex flex-col h-full bg-white dark:bg-surface-900 border-r border-surface-200 dark:border-surface-800 transition-all duration-300 ${
+      className={`flex flex-col h-full bg-white dark:bg-black border-r border-surface-200 dark:border-white/20 transition-all duration-300 ${
         collapsed ? 'w-[72px]' : 'w-64'
       }`}
     >
       {/* Logo */}
-      <div className="flex items-center gap-3 px-4 py-5 border-b border-surface-100 dark:border-surface-800">
+      <div className="flex items-center gap-3 px-4 py-5 border-b border-surface-100 dark:border-white/20">
         <div className="flex items-center justify-center w-9 h-9 rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 shadow-lg shadow-brand-500/25">
           <Sparkles className="w-5 h-5 text-white" />
         </div>
@@ -66,7 +66,7 @@ export function Sidebar({ collapsed, onToggle, onClose }: SidebarProps) {
 
         {user?.is_admin && (
           <>
-            <div className="my-4 border-t border-surface-100 dark:border-surface-800" />
+            <div className="my-4 border-t border-surface-100 dark:border-white/20" />
             {!collapsed && (
               <p className="px-3 mb-2 text-xs font-semibold uppercase tracking-wider text-surface-400 dark:text-surface-500">
                 Admin
@@ -89,7 +89,7 @@ export function Sidebar({ collapsed, onToggle, onClose }: SidebarProps) {
       </nav>
 
       {/* Collapse Toggle */}
-      <div className="px-3 py-3 border-t border-surface-100 dark:border-surface-800">
+      <div className="px-3 py-3 border-t border-surface-100 dark:border-white/20">
         <button
           onClick={onToggle}
           className="flex items-center justify-center w-full p-2 rounded-xl text-surface-400 hover:bg-surface-50 dark:hover:bg-surface-800 hover:text-surface-600 dark:hover:text-surface-300 transition-colors"

@@ -24,7 +24,7 @@ export function Header({ onMenuClick, title }: HeaderProps) {
   ];
 
   return (
-    <header className="sticky top-0 z-30 flex items-center justify-between h-16 px-4 lg:px-6 bg-white/80 dark:bg-surface-900/80 backdrop-blur-xl border-b border-surface-200/50 dark:border-surface-800/50">
+    <header className="sticky top-0 z-30 flex items-center justify-between h-16 px-4 lg:px-6 bg-white/80 dark:bg-black/80 backdrop-blur-xl border-b border-surface-200/50 dark:border-white/20/50">
       <div className="flex items-center gap-3">
         <button
           onClick={onMenuClick}
@@ -47,7 +47,7 @@ export function Header({ onMenuClick, title }: HeaderProps) {
           trigger={
             <button className="flex items-center gap-2 p-1 rounded-xl hover:bg-surface-50 dark:hover:bg-surface-800 transition-colors">
               <Avatar src={user?.avatar_url} alt={user?.full_name || 'User'} size="sm" status="online" />
-              <span className="hidden md:block text-sm font-medium text-surface-700 dark:text-surface-300 max-w-[120px] truncate">
+              <span className="hidden md:block text-sm font-medium text-surface-700 dark:text-white/70 max-w-[120px] truncate">
                 {user?.full_name || user?.email}
               </span>
             </button>

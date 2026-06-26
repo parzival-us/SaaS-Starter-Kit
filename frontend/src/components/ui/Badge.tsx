@@ -14,7 +14,7 @@ export function Badge({ variant = 'default', size = 'sm', dot = false, children,
     warning: 'bg-amber-50 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 border-amber-200 dark:border-amber-800',
     error: 'bg-red-50 dark:bg-red-900/30 text-red-700 dark:text-red-400 border-red-200 dark:border-red-800',
     info: 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 border-blue-200 dark:border-blue-800',
-    default: 'bg-surface-100 dark:bg-surface-700 text-surface-600 dark:text-surface-300 border-surface-200 dark:border-surface-600',
+    default: 'bg-surface-100 dark:bg-surface-700 text-surface-600 dark:text-white/70 border-surface-200 dark:border-surface-600',
   };
 
   const dotColors: Record<string, string> = {

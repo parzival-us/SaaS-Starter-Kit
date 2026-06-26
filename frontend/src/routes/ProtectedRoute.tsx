@@ -7,10 +7,10 @@ export function ProtectedRoute() {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center h-screen bg-surface-50 dark:bg-surface-950">
+      <div className="flex items-center justify-center h-screen bg-surface-50 dark:bg-black">
         <div className="flex flex-col items-center gap-4">
           <Loader2 className="w-10 h-10 text-brand-500 animate-spin" />
-          <p className="text-surface-500 dark:text-surface-400 text-sm">Loading...</p>
+          <p className="text-surface-500 dark:text-white/60 text-sm">Loading...</p>
         </div>
       </div>
     );

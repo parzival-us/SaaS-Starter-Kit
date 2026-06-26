@@ -15,8 +15,8 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 
     const variants: Record<string, string> = {
       primary: 'bg-gradient-to-r from-brand-500 to-brand-700 text-white shadow-lg shadow-brand-500/25 hover:shadow-xl hover:shadow-brand-500/30 hover:scale-[1.02]',
-      secondary: 'bg-surface-100 dark:bg-surface-800 text-surface-700 dark:text-surface-200 hover:bg-surface-200 dark:hover:bg-surface-700 border border-surface-200 dark:border-surface-700',
-      ghost: 'text-surface-600 dark:text-surface-300 hover:bg-surface-100 dark:hover:bg-surface-800',
+      secondary: 'bg-surface-100 dark:bg-black text-surface-700 dark:text-white hover:bg-surface-200 dark:hover:bg-surface-700 border border-surface-200 dark:border-white/20',
+      ghost: 'text-surface-600 dark:text-white/70 hover:bg-surface-100 dark:hover:bg-surface-800',
       danger: 'bg-red-500 text-white hover:bg-red-600 shadow-lg shadow-red-500/25',
       outline: 'border-2 border-brand-500 text-brand-600 dark:text-brand-400 hover:bg-brand-50 dark:hover:bg-brand-950',
     };

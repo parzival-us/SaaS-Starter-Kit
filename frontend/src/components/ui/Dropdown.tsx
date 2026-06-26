@@ -32,17 +32,17 @@ export function Dropdown({ trigger, items, align = 'right' }: DropdownProps) {
       <div onClick={() => setOpen(!open)}>{trigger}</div>
       {open && (
         <div
-          className={`absolute top-full mt-2 ${align === 'right' ? 'right-0' : 'left-0'} z-50 min-w-48 bg-white dark:bg-surface-800 rounded-xl border border-surface-200 dark:border-surface-700 shadow-xl py-1.5 animate-scale-in origin-top-right`}
+          className={`absolute top-full mt-2 ${align === 'right' ? 'right-0' : 'left-0'} z-50 min-w-48 bg-white dark:bg-black rounded-xl border border-surface-200 dark:border-white/20 shadow-xl py-1.5 animate-scale-in origin-top-right`}
         >
           {items.map((item, i) => (
             <div key={i}>
-              {item.divider && <div className="my-1.5 border-t border-surface-100 dark:border-surface-700" />}
+              {item.divider && <div className="my-1.5 border-t border-surface-100 dark:border-white/20" />}
               <button
                 onClick={() => { item.onClick(); setOpen(false); }}
                 className={`w-full flex items-center gap-2.5 px-3.5 py-2 text-sm transition-colors ${
                   item.variant === 'danger'
                     ? 'text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20'
-                    : 'text-surface-700 dark:text-surface-300 hover:bg-surface-50 dark:hover:bg-surface-700/50'
+                    : 'text-surface-700 dark:text-white/70 hover:bg-surface-50 dark:hover:bg-surface-700/50'
                 }`}
               >
                 {item.icon && <item.icon className="w-4 h-4" />}

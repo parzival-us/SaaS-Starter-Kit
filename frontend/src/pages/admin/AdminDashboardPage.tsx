@@ -25,7 +25,7 @@ export default function AdminDashboardPage() {
     <div className="space-y-8">
       <div>
         <h1 className="text-2xl font-bold text-surface-900 dark:text-white">Admin Dashboard</h1>
-        <p className="text-surface-500 dark:text-surface-400 mt-1">Overview of your SaaS platform</p>
+        <p className="text-surface-500 dark:text-white/60 mt-1">Overview of your SaaS platform</p>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -42,19 +42,19 @@ export default function AdminDashboardPage() {
         <CardBody>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             <div>
-              <p className="text-sm text-surface-500 dark:text-surface-400">Active Users</p>
+              <p className="text-sm text-surface-500 dark:text-white/60">Active Users</p>
               <p className="text-2xl font-bold text-surface-900 dark:text-white mt-1">{stats?.active_users || 0}</p>
             </div>
             <div>
-              <p className="text-sm text-surface-500 dark:text-surface-400">Conversations</p>
+              <p className="text-sm text-surface-500 dark:text-white/60">Conversations</p>
               <p className="text-2xl font-bold text-surface-900 dark:text-white mt-1">{stats?.total_conversations || 0}</p>
             </div>
             <div>
-              <p className="text-sm text-surface-500 dark:text-surface-400">Messages</p>
+              <p className="text-sm text-surface-500 dark:text-white/60">Messages</p>
               <p className="text-2xl font-bold text-surface-900 dark:text-white mt-1">{stats?.total_messages || 0}</p>
             </div>
             <div>
-              <p className="text-sm text-surface-500 dark:text-surface-400">API Keys Issued</p>
+              <p className="text-sm text-surface-500 dark:text-white/60">API Keys Issued</p>
               <p className="text-2xl font-bold text-surface-900 dark:text-white mt-1">{stats?.total_api_keys || 0}</p>
             </div>
           </div>

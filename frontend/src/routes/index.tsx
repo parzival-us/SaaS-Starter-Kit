@@ -25,9 +25,9 @@ import AdminUsersPage from '@/pages/admin/AdminUsersPage';
 // 404 page
 function NotFoundPage() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-surface-50 dark:bg-surface-950">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-surface-50 dark:bg-black">
       <h1 className="text-6xl font-bold text-brand-500 mb-4">404</h1>
-      <p className="text-xl text-surface-600 dark:text-surface-400 mb-8">Page not found</p>
+      <p className="text-xl text-surface-600 dark:text-white/60 mb-8">Page not found</p>
       <a
         href="/"
         className="px-6 py-3 rounded-xl bg-gradient-to-r from-brand-500 to-brand-700 text-white font-semibold shadow-lg shadow-brand-500/25 hover:shadow-xl transition-all"

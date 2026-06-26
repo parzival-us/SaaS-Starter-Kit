@@ -64,7 +64,7 @@ export default function ApiKeysPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-surface-900 dark:text-white">API Keys</h1>
-          <p className="text-surface-500 dark:text-surface-400 mt-1">Manage your API access keys</p>
+          <p className="text-surface-500 dark:text-white/60 mt-1">Manage your API access keys</p>
         </div>
         <Button onClick={() => { setCreatedKey(null); setCreateOpen(true); }} leftIcon={<Plus className="w-4 h-4" />}>Create Key</Button>
       </div>
@@ -106,7 +106,7 @@ export default function ApiKeysPage() {
 
       {/* Revoke Modal */}
       <Modal isOpen={!!revokeId} onClose={() => setRevokeId(null)} title="Revoke API Key">
-        <p className="text-sm text-surface-600 dark:text-surface-400 mb-6">Are you sure you want to revoke this key? This action cannot be undone.</p>
+        <p className="text-sm text-surface-600 dark:text-white/60 mb-6">Are you sure you want to revoke this key? This action cannot be undone.</p>
         <div className="flex gap-3 justify-end">
           <Button variant="secondary" onClick={() => setRevokeId(null)}>Cancel</Button>
           <Button variant="danger" onClick={revokeKey}>Revoke Key</Button>

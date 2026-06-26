@@ -43,10 +43,10 @@ export function Modal({ isOpen, onClose, title, children, maxWidth = 'md' }: Mod
       />
       {/* Content */}
       <div
-        className={`relative ${widths[maxWidth]} w-full bg-white dark:bg-surface-800 rounded-2xl shadow-2xl animate-scale-in border border-surface-200 dark:border-surface-700`}
+        className={`relative ${widths[maxWidth]} w-full bg-white dark:bg-black rounded-2xl shadow-2xl animate-scale-in border border-surface-200 dark:border-white/20`}
       >
         {title && (
-          <div className="flex items-center justify-between px-6 py-4 border-b border-surface-100 dark:border-surface-700">
+          <div className="flex items-center justify-between px-6 py-4 border-b border-surface-100 dark:border-white/20">
             <h3 className="text-lg font-semibold text-surface-900 dark:text-white">{title}</h3>
             <button
               onClick={onClose}
