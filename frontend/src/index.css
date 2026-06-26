@@ -34,10 +34,10 @@
   --color-surface-400: #94a3b8;
   --color-surface-500: #64748b;
   --color-surface-600: #475569;
-  --color-surface-700: #334155;
-  --color-surface-800: #1e293b;
-  --color-surface-850: #121212;
-  --color-surface-900: #0a0a0a;
+  --color-surface-700: rgba(255, 255, 255, 0.2);
+  --color-surface-800: #0a0a0a;
+  --color-surface-850: #050505;
+  --color-surface-900: #000000;
   --color-surface-950: #000000;
 
   /* Fonts */
@@ -98,7 +98,7 @@ body {
   font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  @apply bg-white text-surface-900 dark:bg-surface-950 dark:text-surface-100;
+  @apply bg-white text-surface-900 dark:bg-black dark:text-white;
 }
 
 /* Custom scrollbar */
@@ -112,20 +112,20 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-surface-300 dark:bg-surface-700 rounded-full;
+  @apply bg-surface-300 dark:bg-white/30 rounded-full;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  @apply bg-surface-400 dark:bg-surface-600;
+  @apply bg-surface-400 dark:bg-white/50;
 }
 
 /* Glass utility */
 .glass {
-  @apply bg-white/70 dark:bg-surface-900/70 backdrop-blur-xl border border-white/20 dark:border-surface-700/50;
+  @apply bg-white/70 dark:bg-black/80 backdrop-blur-xl border border-white/20 dark:border-white/20;
 }
 
 .glass-strong {
-  @apply bg-white/80 dark:bg-surface-900/80 backdrop-blur-2xl border border-white/30 dark:border-surface-700/60;
+  @apply bg-white/80 dark:bg-black/90 backdrop-blur-2xl border border-white/30 dark:border-white/30;
 }
 
 /* Gradient text utility */
@@ -147,7 +147,7 @@ body {
 
 /* Focus ring */
 .focus-ring {
-  @apply focus:outline-none focus:ring-2 focus:ring-brand-500/50 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-surface-900;
+  @apply focus:outline-none focus:ring-2 focus:ring-brand-500/50 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-black;
 }
 
 /* Gradient border utility */

@@ -55,6 +55,8 @@ export default function ChatPage() {
     setInput('');
     setStreaming(true);
 
+    const assistantId = crypto.randomUUID();
+
     try {
       const response = await fetch(`/api/v1/chat/conversations/${activeId}/messages`, {
         method: 'POST',
@@ -62,33 +64,44 @@ export default function ChatPage() {
         body: JSON.stringify({ content: userMsg.content }),
       });
 
-      if (!response.ok) throw new Error();
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
 
       const reader = response.body?.getReader();
       const decoder = new TextDecoder();
       let assistantContent = '';
-      const assistantMsg: Message = { id: crypto.randomUUID(), role: 'assistant', content: '', tokens: 0, created_at: new Date().toISOString() };
-      setMessages(prev => [...prev, assistantMsg]);
+      setMessages(prev => [...prev, { id: assistantId, role: 'assistant', content: '', tokens: 0, created_at: new Date().toISOString() }]);
 
       if (reader) {
-        while (true) {
-          const { done, value } = await reader.read();
-          if (done) break;
-          const chunk = decoder.decode(value);
-          const lines = chunk.split('\n').filter(l => l.startsWith('data: '));
+        let buffer = '';
+        let done = false;
+        while (!done) {
+          const result = await reader.read();
+          if (result.done) break;
+          buffer += decoder.decode(result.value, { stream: true });
+          const lines = buffer.split('\n');
+          buffer = lines.pop() || ''; // keep incomplete line in buffer
+
           for (const line of lines) {
-            const data = line.slice(6);
-            if (data === '[DONE]') break;
+            const trimmed = line.trim();
+            if (!trimmed || !trimmed.startsWith('data: ')) continue;
+            const data = trimmed.slice(6);
+            if (data === '[DONE]') { done = true; break; }
             try {
               const parsed = JSON.parse(data);
-              assistantContent += parsed.content || parsed.delta || '';
-              setMessages(prev => prev.map(m => m.id === assistantMsg.id ? { ...m, content: assistantContent } : m));
-            } catch { assistantContent += data; setMessages(prev => prev.map(m => m.id === assistantMsg.id ? { ...m, content: assistantContent } : m)); }
+              if (parsed.error) { toast.error(parsed.error); done = true; break; }
+              const chunk = parsed.content || parsed.delta || '';
+              if (chunk) {
+                assistantContent += chunk;
+                setMessages(prev => prev.map(m => m.id === assistantId ? { ...m, content: assistantContent } : m));
+              }
+            } catch {
+              // skip unparseable chunks
+            }
           }
         }
       }
       loadConversations();
-    } catch { toast.error('Failed to get response'); }
+    } catch (err) { toast.error('Failed to get response'); console.error('Chat error:', err); }
     finally { setStreaming(false); }
   };
 
